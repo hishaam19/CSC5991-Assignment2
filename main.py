@@ -2,12 +2,10 @@ from flask import Flask, jsonify, request
 import random
 import json
 app = Flask(__name__)
-@app.route('/jokes/', methods=['GET', 'POST'])
+@app.route('/jokes', methods=['GET', 'POST'])
 
-def joke():
-
-    args = request.args
-    num = args.get(random.randint(1,10))
+def jokes():
+    num = request.args.get('num', default=random.randint(1,10),type=int)
 
     jokes = [
         "What does a house wear? Address!",
@@ -23,7 +21,7 @@ def joke():
     ]
 
     return jsonify(
-        jokes = random.sample(jokes,num)
+        jokes = random.sample(jokes,k=num)
     )
 
 if __name__ == '__main__':
